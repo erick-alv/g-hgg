@@ -3,10 +3,8 @@ import copy
 import numpy as np
 
 import gym
-import torch
 from gym import error, spaces
 from gym.utils import seeding
-from torchvision.utils import save_image
 
 
 try:
@@ -72,18 +70,6 @@ class RobotEnv(gym.GoalEnv):
             'is_success': self._is_success(obs['achieved_goal'], self.goal),
         }
         reward = self.compute_reward(obs['achieved_goal'], self.goal, info)
-
-        #d = np.linalg.norm(obs['achieved_goal'] - self.goal, axis=-1)
-        #if d < 3:
-            #print("Distance: ", d)
-            #print("Achieved goal", obs['achieved_goal'])
-            #print("Goal", self.goal)
-        #obs1 = torch.from_numpy(obs['observation']).float().to('cuda')
-        #ach1 = torch.from_numpy(obs['achieved_goal']).float().to('cuda')
-        # goal1 = torch.from_numpy(self.goal).float().to('cuda')
-        #save_image(self.obs_vae.decode(obs1).view(-1, 3, 84, 84), 'obs1.png')
-        #save_image(self.goal_vae.decode(ach1).view(-1, 3, 84, 84), 'ach_latent.png')
-        # save_image(self.goal_vae.decode(goal1).view(-1, 3, 84, 84), 'goal1.png')
         return obs, reward, done, info
 
     def reset(self):

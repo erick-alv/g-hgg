@@ -1,6 +1,5 @@
 import numpy as np
 from gym.envs.robotics import rotations, robot_env, utils
-from torchvision.utils import save_image
 from numpy import random
 
 def goal_distance(goal_a, goal_b):
@@ -130,26 +129,13 @@ class FetchEnv(robot_env.RobotEnv):
         }
 
     def _viewer_setup(self):
-        from gym.envs.robotics.fetch.push_obstacle_fetch import FetchPushObstacleFetchEnv
-        from gym.envs.robotics.fetch.push_moving_obstacle_fetch import FetchPushMovingObstacleEnv
-        from gym.envs.robotics.fetch.push_moving_double_obstacle import FetchPushMovingDoubleObstacleEnv
-        from gym.envs.robotics.fetch.generative_fetch import FetchGenerativeEnv
-        if isinstance(self, FetchPushObstacleFetchEnv) or isinstance(self, FetchPushMovingObstacleEnv) or \
-                isinstance(self, FetchGenerativeEnv) or isinstance(self, FetchPushMovingDoubleObstacleEnv):#todo put all these classes in dummy class
-            lookat = np.array([1.3, 0.75, 0.4])
-            for idx, value in enumerate(lookat):
-                self.viewer.cam.lookat[idx] = value
-            self.viewer.cam.distance = 0.8
-            self.viewer.cam.azimuth = 180.
-            self.viewer.cam.elevation = 270
-        else:
-            body_id = self.sim.model.body_name2id('robot0:gripper_link')
-            lookat = self.sim.data.body_xpos[body_id]
-            for idx, value in enumerate(lookat):
-                self.viewer.cam.lookat[idx] = value
-            self.viewer.cam.distance = 1.0
-            self.viewer.cam.azimuth = 180.
-            self.viewer.cam.elevation = 90.
+        body_id = self.sim.model.body_name2id('robot0:gripper_link')
+        lookat = self.sim.data.body_xpos[body_id]
+        for idx, value in enumerate(lookat):
+            self.viewer.cam.lookat[idx] = value
+        self.viewer.cam.distance = 1.0
+        self.viewer.cam.azimuth = 180.
+        self.viewer.cam.elevation = 90.
 
     def _render_callback(self):
         # Visualize target.
@@ -186,20 +172,6 @@ class FetchEnv(robot_env.RobotEnv):
         else:
             goal = self.initial_gripper_xpos[:3] + self.np_random.uniform(-0.15, 0.15, size=3)
         return goal.copy()
-
-    #
-    '''def _sample_goal(self):
-        return self._sample_goal_old()
-        goal = goal_set[np.random.randint(20)]
-        goal = self.goal_vae.format(goal)
-        # path = 'videos/goal/goal_' + str(self.goal_counter) + '.png'
-        #save_image(goal.cpu().view(-1, 3, self.img_size, self.img_size), 'videos/goal/goal.png')
-        self.goal_counter += 1
-        x, y = self.goal_vae.encode(goal)
-        goal = self.goal_vae.reparameterize(x, y)
-        goal = goal.detach().cpu().numpy()
-        goal = np.squeeze(goal)
-        return goal.copy()#TODO..'''
 
     def _is_success(self, achieved_goal, desired_goal):
         d = goal_distance(achieved_goal, desired_goal)
