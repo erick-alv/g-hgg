@@ -419,14 +419,6 @@ for reward_type in ['sparse', 'dense']:
         max_episode_steps=50,
     )
 
-    # For dynamic
-    register(
-        id='FetchPushDyn{}-v1'.format(suffix),
-        entry_point='gym.envs.robotics:FetchPushDynEnv',
-        kwargs=kwargs,
-        max_episode_steps=50,
-    )
-
     register(
         id='FetchPushNew{}-v1'.format(suffix),
         entry_point='gym.envs.robotics:FetchPushNewEnv',
@@ -440,6 +432,45 @@ for reward_type in ['sparse', 'dense']:
         kwargs=kwargs,
         max_episode_steps=100,
     )
+
+    register(
+        id='FetchPushObstacleFetchEnv{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchPushObstacleFetchEnv',
+        kwargs=kwargs,
+        max_episode_steps=100,
+    )
+
+    register(
+        id='FetchPushMovingObstacleEnv{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchPushMovingObstacleEnv',
+        kwargs=kwargs,
+        max_episode_steps=100,)
+
+    register(
+        id='FetchPushMovingDoubleObstacleEnv{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchPushMovingDoubleObstacleEnv',
+        kwargs=kwargs,
+        max_episode_steps=100, )
+
+    register(
+        id='FetchPushMovingComEnv{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchPushMovingComEnv',
+        kwargs=kwargs,
+        max_episode_steps=100, )
+
+    register(
+        id='FetchTwinkleObstacleEnv{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchTwinkleObstacleEnv',
+        kwargs=kwargs,
+        max_episode_steps=100, )
+
+    register(
+        id='FetchGenerativeEnv{}-v1'.format(suffix),
+        entry_point='gym.envs.robotics:FetchGenerativeEnv',
+        kwargs=kwargs,
+        max_episode_steps=100, )
+
+
 
     register(
         id='FetchPushNoObstacle{}-v1'.format(suffix),
@@ -746,7 +777,7 @@ for game in ['adventure', 'air_raid', 'alien', 'amidar', 'assault', 'asterix', '
         else:
             frameskip = 4
 
-        # Use a deterministic frame skip.
+        # Use a deterministic frames skip.
         register(
             id='{}Deterministic-v0'.format(name),
             entry_point='gym.envs.atari:AtariEnv',
@@ -766,7 +797,7 @@ for game in ['adventure', 'air_raid', 'alien', 'amidar', 'assault', 'asterix', '
         register(
             id='{}NoFrameskip-v0'.format(name),
             entry_point='gym.envs.atari:AtariEnv',
-            kwargs={'game': game, 'obs_type': obs_type, 'frameskip': 1, 'repeat_action_probability': 0.25}, # A frameskip of 1 means we get every frame
+            kwargs={'game': game, 'obs_type': obs_type, 'frameskip': 1, 'repeat_action_probability': 0.25}, # A frameskip of 1 means we get every frames
             max_episode_steps=frameskip * 100000,
             nondeterministic=nondeterministic,
         )
@@ -776,7 +807,7 @@ for game in ['adventure', 'air_raid', 'alien', 'amidar', 'assault', 'asterix', '
         register(
             id='{}NoFrameskip-v4'.format(name),
             entry_point='gym.envs.atari:AtariEnv',
-            kwargs={'game': game, 'obs_type': obs_type, 'frameskip': 1}, # A frameskip of 1 means we get every frame
+            kwargs={'game': game, 'obs_type': obs_type, 'frameskip': 1}, # A frameskip of 1 means we get every frames
             max_episode_steps=frameskip * 100000,
             nondeterministic=nondeterministic,
         )

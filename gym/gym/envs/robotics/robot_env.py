@@ -3,8 +3,11 @@ import copy
 import numpy as np
 
 import gym
+import torch
 from gym import error, spaces
 from gym.utils import seeding
+from torchvision.utils import save_image
+
 
 try:
     import mujoco_py
@@ -12,6 +15,7 @@ except ImportError as e:
     raise error.DependencyNotInstalled("{}. (HINT: you need to install mujoco_py, and also perform the setup instructions here: https://github.com/openai/mujoco-py/.)".format(e))
 
 DEFAULT_SIZE = 500
+
 
 class RobotEnv(gym.GoalEnv):
     def __init__(self, model_path, initial_qpos, n_actions, n_substeps):
@@ -59,11 +63,6 @@ class RobotEnv(gym.GoalEnv):
     def step(self, action):
         action = np.clip(action, self.action_space.low, self.action_space.high)
         self._set_action(action)
-
-        # Todo: Update obst
-        self._update_obs()
-        self.sim.forward()
-
         self.sim.step()
         self._step_callback()
         obs = self._get_obs()
@@ -73,6 +72,18 @@ class RobotEnv(gym.GoalEnv):
             'is_success': self._is_success(obs['achieved_goal'], self.goal),
         }
         reward = self.compute_reward(obs['achieved_goal'], self.goal, info)
+
+        #d = np.linalg.norm(obs['achieved_goal'] - self.goal, axis=-1)
+        #if d < 3:
+            #print("Distance: ", d)
+            #print("Achieved goal", obs['achieved_goal'])
+            #print("Goal", self.goal)
+        #obs1 = torch.from_numpy(obs['observation']).float().to('cuda')
+        #ach1 = torch.from_numpy(obs['achieved_goal']).float().to('cuda')
+        # goal1 = torch.from_numpy(self.goal).float().to('cuda')
+        #save_image(self.obs_vae.decode(obs1).view(-1, 3, 84, 84), 'obs1.png')
+        #save_image(self.goal_vae.decode(ach1).view(-1, 3, 84, 84), 'ach_latent.png')
+        # save_image(self.goal_vae.decode(goal1).view(-1, 3, 84, 84), 'goal1.png')
         return obs, reward, done, info
 
     def reset(self):
@@ -95,9 +106,12 @@ class RobotEnv(gym.GoalEnv):
             self.viewer = None
             self._viewers = {}
 
-    def render(self, mode='human', width=DEFAULT_SIZE, height=DEFAULT_SIZE):
-        self._render_callback()
-        if mode == 'rgb_array':
+    def render(self, mode='human', width=DEFAULT_SIZE, height=DEFAULT_SIZE, camera_name=None):
+        # self._render_callback()
+        if camera_name is not None:
+            data = self.sim.render(width=width, height=height, camera_name=camera_name)
+            return data[::-1, :, :]
+        elif mode == 'rgb_array':
             self._get_viewer(mode).render(width, height)
             # window size used for old mujoco-py:
             data = self._get_viewer(mode).read_pixels(width, height, depth=False)
@@ -138,9 +152,6 @@ class RobotEnv(gym.GoalEnv):
     def _set_action(self, action):
         """Applies the given action to the simulation.
         """
-        raise NotImplementedError()
-
-    def _update_obs(self):
         raise NotImplementedError()
 
     def _is_success(self, achieved_goal, desired_goal):
