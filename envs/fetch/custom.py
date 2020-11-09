@@ -16,7 +16,7 @@ class CustomGoalEnv():
         self.fixed_obj = False
         self.has_object = self.env.env.has_object
         self.obj_range = self.env.env.obj_range
-        # self.target_range = self.env.env.target_range
+        self.target_range = self.env.env.target_range
         self.target_offset = self.env.env.target_offset
         self.target_in_the_air = self.env.env.target_in_the_air
         if self.has_object: self.height_offset = self.env.env.height_offset
@@ -102,7 +102,6 @@ class CustomGoalEnv():
         self.env.env.goal = value.copy()
 
     def generate_goal(self):
-        """
         if self.has_object:
             goal = self.initial_gripper_xpos[:3] + self.target_offset
             if self.args.env == 'FetchSlide-v1':
@@ -110,20 +109,16 @@ class CustomGoalEnv():
                 goal[1] += np.random.uniform(-self.target_range, self.target_range) * 0.5
             else:
                 goal[0] += np.random.uniform(-self.target_range, self.target_range)
-                goal[1] += self.target_range
-            # goal[1] += np.random.uniform(-self.target_range, self.target_range) # TODO: changed
+                goal[1] += np.random.uniform(-self.target_range, self.target_range)
             goal[2] = self.height_offset + int(self.target_in_the_air) * 0.45
         else:
             goal = self.initial_gripper_xpos[:3] + np.array(
                 [np.random.uniform(-self.target_range, self.target_range), self.target_range, self.target_range])
         return goal.copy()
-        """
-        return self.env.env._sample_goal()
 
     def reset(self):
         self.reset_ep()
         self.env.env._reset_sim()
-        """
         self.sim.set_state(self.initial_state)
 
         if self.has_object:
@@ -138,13 +133,9 @@ class CustomGoalEnv():
             object_qpos[:2] = object_xpos
             self.sim.data.set_joint_qpos('object0:joint', object_qpos)
         self.sim.forward()
-        """
         self.goal = self.generate_goal()
         self.last_obs = (self.get_obs()).copy()
         return self.get_obs()
-
-    def generate_goal(self):
-        return self.env.env._sample_goal()
 
 
 
