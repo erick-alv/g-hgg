@@ -16,7 +16,7 @@ class CustomGoalEnv():
         self.fixed_obj = False
         self.has_object = self.env.env.has_object
         self.obj_range = self.env.env.obj_range
-        self.target_range = self.env.env.target_range
+        #self.target_range = self.env.env.target_range
         self.target_offset = self.env.env.target_offset
         self.target_in_the_air = self.env.env.target_in_the_air
         if self.has_object: self.height_offset = self.env.env.height_offset
