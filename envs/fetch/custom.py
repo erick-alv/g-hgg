@@ -102,7 +102,7 @@ class CustomGoalEnv():
         self.env.env.goal = value.copy()
 
     def generate_goal(self):
-        if self.has_object:
+        '''if self.has_object:
             goal = self.initial_gripper_xpos[:3] + self.target_offset
             if self.args.env == 'FetchSlide-v1':
                 goal[0] += self.target_range * 0.5
@@ -114,11 +114,13 @@ class CustomGoalEnv():
         else:
             goal = self.initial_gripper_xpos[:3] + np.array(
                 [np.random.uniform(-self.target_range, self.target_range), self.target_range, self.target_range])
-        return goal.copy()
+        return goal.copy()'''
+        return self.env.env._sample_goal()
 
     def reset(self):
         self.reset_ep()
         self.env.env._reset_sim()
+        """
         self.sim.set_state(self.initial_state)
 
         if self.has_object:
@@ -133,6 +135,7 @@ class CustomGoalEnv():
             object_qpos[:2] = object_xpos
             self.sim.data.set_joint_qpos('object0:joint', object_qpos)
         self.sim.forward()
+        """
         self.goal = self.generate_goal()
         self.last_obs = (self.get_obs()).copy()
         return self.get_obs()
