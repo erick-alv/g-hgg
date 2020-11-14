@@ -8,6 +8,8 @@ class CustomGoalEnv():
     def __init__(self, args):
         self.args = args
         self.env = gym.make(args.env)
+        if args.seed is not None:
+            self.env.env.seed(args.seed)
         self.np_random = self.env.env.np_random
         self.distance_threshold = self.env.env.distance_threshold
         self.action_space = self.env.action_space

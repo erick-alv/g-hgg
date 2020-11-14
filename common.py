@@ -65,6 +65,7 @@ def get_args():
 	parser.add_argument('--hgg_pool_size', help='size of achieved trajectories pool', type=np.int32, default=1000)
 
 	parser.add_argument('--save_acc', help='save successful rate', type=str2bool, default=True)
+	parser.add_argument('--seed', help='seed for environment', type=int, default=None)
 
 	args = parser.parse_args()
 	args.num_vertices = [args.n_x, args.n_y, args.n_z]
