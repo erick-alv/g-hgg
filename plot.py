@@ -144,11 +144,11 @@ if __name__ == "__main__":
         elif args.naming == 6:
             if (("graph" in clean_path) or ("mesh" in clean_path)):
                 config = "G-HGG"
-                if '000' in curr_path:
+                if '000' in curr_path  or '007' in curr_path or '008' in curr_path:
                     config = '(3, 10, 4)-' + config
-                elif '001' in curr_path:
+                elif '001' in curr_path or '005' in curr_path or '006' in curr_path:
                     config = '(11, 15, 9)-' + config
-                elif '002' in curr_path:
+                elif '002' in curr_path or '003' in curr_path or '004' in curr_path:
                     config = '(31, 31, 11)-' + config
             elif "hgg" in clean_path:
                 config = "HGG"
