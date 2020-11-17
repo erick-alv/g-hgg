@@ -144,12 +144,12 @@ if __name__ == "__main__":
         elif args.naming == 6:
             if (("graph" in clean_path) or ("mesh" in clean_path)):
                 config = "G-HGG"
-                if '000' in curr_path  or '007' in curr_path or '008' in curr_path:
-                    config = '(3, 10, 4)-' + config
+                if '000' in curr_path  or '007' in curr_path or '008' in curr_path or '009' in curr_path:
+                    config = config + ' (n = 120)'
                 elif '001' in curr_path or '005' in curr_path or '006' in curr_path:
-                    config = '(11, 15, 9)-' + config
+                    config = config + ' (n = 1485)'
                 elif '002' in curr_path or '003' in curr_path or '004' in curr_path:
-                    config = '(31, 31, 11)-' + config
+                    config = config + ' (n = 10571)'
             elif "hgg" in clean_path:
                 config = "HGG"
             elif "normal" in clean_path:
@@ -215,7 +215,7 @@ if __name__ == "__main__":
     plt.title(env_id)
     plt.xlabel('Iteration')
     plt.ylabel('Median Success Rate')
-    plt.legend(loc=location)
+    plt.legend(loc='lower right', fontsize=12)
     plt.savefig(os.path.join(args.dir, 'fig_{}.pdf'.format(env_id)), format='pdf')
     if args.save_path:
         plt.savefig(args.save_path)
