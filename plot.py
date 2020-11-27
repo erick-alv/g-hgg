@@ -166,7 +166,7 @@ if __name__ == "__main__":
                     config = config + r" ($\delta_{stop} = 0.6$)"
                 elif  '007' in curr_path or '008' in curr_path or '009' in curr_path:
                     config = config + r" ($\delta_{stop} = 0.9$)"
-                elif '010' in curr_path or '011' in curr_path:
+                elif '010' in curr_path or '011' in curr_path or '012' in curr_path:
                     config = config + r" ($\delta_{stop} = 1$)"
             elif "hgg" in clean_path:
                 config = "HGG"
@@ -215,7 +215,7 @@ if __name__ == "__main__":
 
     # new curve for each config
     if args.naming == 4 or args.naming == 5 or args.naming == 1 or args.naming == 6 or args.naming == 7 :
-        configs = sorted(data.keys(), key=len)
+        configs = sorted(data.keys())
     else:
         configs = sorted(data.keys())
 
