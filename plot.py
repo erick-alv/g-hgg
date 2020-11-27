@@ -157,6 +157,24 @@ if __name__ == "__main__":
             else:
                 raise Exception("Naming failed!")
 
+        elif args.naming == 7:
+            if (("graph" in clean_path) or ("mesh" in clean_path)):
+                config = "G-HGG"
+                if '004' in curr_path or '005' in curr_path:
+                    config = config + r" ($\delta_{stop} = 0.3$)"
+                elif '000' in curr_path or '001' in curr_path or '003' in curr_path:
+                    config = config + r" ($\delta_{stop} = 0.6$)"
+                elif  '007' in curr_path or '008' in curr_path or '009' in curr_path:
+                    config = config + r" ($\delta_{stop} = 0.9$)"
+                elif '010' in curr_path or '011' in curr_path:
+                    config = config + r" ($\delta_{stop} = 1$)"
+            elif "hgg" in clean_path:
+                config = "HGG"
+            elif "normal" in clean_path:
+                config = "HER"
+            else:
+                raise Exception("Naming failed!")
+
 
 
         # Test:
@@ -196,7 +214,7 @@ if __name__ == "__main__":
     plt.clf()
 
     # new curve for each config
-    if args.naming == 4 or args.naming == 5 or args.naming == 1:
+    if args.naming == 4 or args.naming == 5 or args.naming == 1 or args.naming == 6 or args.naming == 7 :
         configs = sorted(data.keys(), key=len)
     else:
         configs = sorted(data.keys())

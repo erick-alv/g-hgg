@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+log/
+activateExtraPaths.sh
+g-hgg-venv/
+MUJOCO_LOG.TXT
+.idea/
