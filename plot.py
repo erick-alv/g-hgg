@@ -233,7 +233,7 @@ if __name__ == "__main__":
             plt.fill_between(xs[0], np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.25)
 
     plt.title(env_id, fontsize=20)
-    plt.xlabel('Iteration', fontsize=20, labelpad=-5)
+    plt.xlabel('Iteration', fontsize=20, labelpad=-3)
     plt.ylabel('Median Success Rate', fontsize=20)
     plt.legend(loc='lower right', fontsize=15)
     plt.savefig(os.path.join(args.dir, 'fig_{}.pdf'.format(env_id)), format='pdf')
