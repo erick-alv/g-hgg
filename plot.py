@@ -214,10 +214,12 @@ if __name__ == "__main__":
     plt.clf()
 
     # new curve for each config
-    if args.naming == 4 or args.naming == 5 or args.naming == 1 or args.naming == 6 or args.naming == 7 :
-        configs = sorted(data.keys())
+    if args.naming == 4 or args.naming == 5 or args.naming == 1 or args.naming == 6:
+        configs = sorted(data.keys(), key=len)
     else:
         configs = sorted(data.keys())
+
+    linewidth = 3
 
     for config in configs:
         print("Config: {}".format(config))
@@ -227,13 +229,13 @@ if __name__ == "__main__":
             xs, ys = zip(*data[config][run])
             xs, ys = pad(xs), pad(ys)
             assert xs.shape == ys.shape
-            plt.plot(xs[0], np.nanmedian(ys, axis=0), label=config)
+            plt.plot(xs[0], np.nanmedian(ys, axis=0), label=config, linewidth=linewidth)
             plt.fill_between(xs[0], np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.25)
 
-    plt.title(env_id)
+    plt.title(env_id, fontsize=20)
     plt.xlabel('Iteration')
     plt.ylabel('Median Success Rate')
-    plt.legend(loc='lower right', fontsize=12)
+    plt.legend(loc='lower right', fontsize=15)
     plt.savefig(os.path.join(args.dir, 'fig_{}.pdf'.format(env_id)), format='pdf')
     if args.save_path:
         plt.savefig(args.save_path)
